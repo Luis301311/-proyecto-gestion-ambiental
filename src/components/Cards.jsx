@@ -1,6 +1,12 @@
-import { Droplet, FlaskConical, Leaf } from 'lucide-react';
+import { Droplet, FlaskConical, Leaf, ArrowLeft } from 'lucide-react';
+import { useState } from 'react';
+import ParametrosQuimicos from '../pages/ParametrosQuimicos';
+import ParametrosFisicos from '../pages/ParametrosFisicos';
+import ParametrosOrganicos from '../pages/ParametrosOrganicos';
 
 const SimulatorsSection = () => {
+  const [activeSimulator, setActiveSimulator] = useState(null);
+  
   const simulators = [
     {
       id: 'fisico',
@@ -64,6 +70,70 @@ const SimulatorsSection = () => {
     }
   ];
 
+  // Función para volver al menú principal
+  const handleBackToMenu = () => {
+    setActiveSimulator(null);
+  };
+
+  // Renderizar el simulador activo
+  if (activeSimulator === 'quimico') {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
+        {/* Botón de regreso */}
+        <div className="container mx-auto max-w-7xl px-4 pt-8">
+          <button
+            onClick={handleBackToMenu}
+            className="flex items-center gap-2 text-purple-400 hover:text-purple-300 transition-colors duration-300 mb-6 group"
+          >
+            <ArrowLeft className="w-5 h-5 group-hover:-translate-x-1 transition-transform duration-300" />
+            <span className="font-semibold">Volver a Simuladores</span>
+          </button>
+        </div>
+        
+        {/* Componente del simulador */}
+        <ParametrosQuimicos />
+      </div>
+    );
+  }
+
+  // Si necesitas agregar otros simuladores en el futuro:
+  if (activeSimulator === 'fisico') {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
+        <div className="container mx-auto max-w-7xl px-4 pt-8">
+          <button
+            onClick={handleBackToMenu}
+            className="flex items-center gap-2 text-blue-400 hover:text-blue-300 transition-colors duration-300 mb-6 group"
+          >
+            <ArrowLeft className="w-5 h-5 group-hover:-translate-x-1 transition-transform duration-300" />
+            <span className="font-semibold">Volver a Simuladores</span>
+          </button>
+        </div>
+        
+        {/* Componente del simulador */}
+        <ParametrosFisicos />
+      </div>
+    );
+  }
+
+  if (activeSimulator === 'organico') {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
+        <div className="container mx-auto max-w-7xl px-4 pt-8">
+          <button
+            onClick={handleBackToMenu}
+            className="flex items-center gap-2 text-green-400 hover:text-green-300 transition-colors duration-300 mb-6 group"
+          >
+            <ArrowLeft className="w-5 h-5 group-hover:-translate-x-1 transition-transform duration-300" />
+            <span className="font-semibold">Volver a Simuladores</span>
+          </button>
+        </div>
+         <ParametrosOrganicos />
+      </div>
+    );
+  }
+
+  // Vista principal: Menú de selección de simuladores
   return (
     <section id="simuladores" className="py-20 px-4">
       <div className="container mx-auto max-w-7xl">
@@ -119,8 +189,8 @@ const SimulatorsSection = () => {
                   ))}
                 </div>
 
-                {/* Botón */}
                 <button 
+                  onClick={() => setActiveSimulator(simulator.id)}
                   className={`w-full bg-gradient-to-r ${simulator.buttonGradient} text-white py-3 rounded-xl font-semibold ${simulator.buttonHover} transition-all duration-300 shadow-lg ${simulator.shadowColor} transform hover:scale-105`}
                 >
                   Iniciar Simulación
